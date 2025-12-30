@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  registry:
+    build: .
+    container_name: mcp-trust-registry
+    ports:
+      - "8080:8080"
+    environment:
+      - REGISTRY_NAME=Veritrust MCP Trust Registry
+      - REGISTRY_BASE_URL=http://localhost:8080
+    restart: unless-stopped
