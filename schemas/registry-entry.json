@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mcpf.dev/schemas/registry-entry.json",
+  "title": "MCP Registry Entry",
+  "description": "Schema for MCP server registry entry",
+  "type": "object",
+  "properties": {
+    "did": {
+      "type": "string",
+      "pattern": "^did:",
+      "description": "Decentralized identifier for the MCP server"
+    },
+    "endpoint": {
+      "type": "string",
+      "format": "uri",
+      "description": "MCP server endpoint URL"
+    },
+    "manifest": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to MCP server manifest"
+    },
+    "credentials": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "W3C Verifiable Credential"
+      },
+      "description": "Array of verifiable credentials"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of server capabilities"
+        },
+        "organization": {
+          "type": "string",
+          "description": "Organization operating the server"
+        },
+        "country": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$",
+          "description": "ISO 3166-1 alpha-2 country code"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Searchable tags"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "suspended", "revoked", "deprecated"],
+          "description": "Server operational status"
+        }
+      },
+      "required": ["capabilities", "status"]
+    }
+  },
+  "required": ["did", "endpoint", "manifest", "metadata"]
+}

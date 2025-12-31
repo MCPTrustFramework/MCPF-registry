@@ -1,25 +1,12 @@
-FROM python:3.11-slim
-
-ENV PYTHONUNBUFFERED=1 \
-    PIP_NO_CACHE_DIR=1
+FROM node:20-alpine
 
 WORKDIR /app
 
-# Install system dependencies if needed later
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates \
- && rm -rf /var/lib/apt/lists/*
+COPY src/package*.json ./
+RUN npm ci --production
 
-# Copy requirements and install
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY src/ ./
 
-# Copy source and examples
-COPY src ./src
-COPY ../examples ./examples
+EXPOSE 4002
 
-WORKDIR /app/src
-
-EXPOSE 8080
-
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["node", "server.js"]
